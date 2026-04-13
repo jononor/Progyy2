@@ -4,7 +4,7 @@ import java.util.Collection;
 import java.util.Objects;
 import java.util.Set;
 
-public class Recording {
+public class Recording implements Comparable<Recording> {
   private final int year;
   private final String artist;
   private final String title;
@@ -63,5 +63,16 @@ public class Recording {
     if (!Objects.equals(artist, rec.artist))
       return false;
     return true;
+  }
+
+  @Override
+  public int compareTo(Recording rec) {
+    if (!Objects.equals(title, rec.title))
+      return title.compareTo(rec.title);
+    if (!Objects.equals(year, rec.year))
+      return Integer.compare(year, rec.year);
+    if (!Objects.equals(artist, rec.artist))
+      return artist.compareTo(rec.artist);
+    return 0;
   }
 }
