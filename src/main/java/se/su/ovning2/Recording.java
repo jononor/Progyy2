@@ -1,6 +1,7 @@
 package se.su.ovning2;
 
 import java.util.Collection;
+import java.util.Objects;
 import java.util.Set;
 
 public class Recording {
@@ -41,5 +42,10 @@ public class Recording {
   @Override
   public String toString() {
     return String.format("{ %s | %s | %s | %d | %s }", artist, title, genre, year, type);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(title, year, artist);
   }
 }
