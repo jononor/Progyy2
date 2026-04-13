@@ -48,4 +48,20 @@ public class Recording {
   public int hashCode() {
     return Objects.hash(title, year, artist);
   }
+
+  @Override
+  public boolean equals(Object other) {
+    if (other == this)
+      return true;
+    if (!(other instanceof Recording))
+      return false;
+    Recording rec = (Recording) other;
+    if (!Objects.equals(title, rec.title))
+      return false;
+    if (!Objects.equals(year, rec.year))
+      return false;
+    if (!Objects.equals(artist, rec.artist))
+      return false;
+    return true;
+  }
 }
