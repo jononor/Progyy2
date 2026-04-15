@@ -3,6 +3,13 @@ package se.su.ovning2;
 import java.util.*;
 
 public class Searcher implements SearchOperations {
+ /* private static class RecordingYearComparator implements Comparator<Recording> {
+    @Override
+    public int compare(Recording a, Recording b) {
+      return a.getYear() - b.getYear();
+    }
+  }*/
+
   /*
   private Map<String, Set<Recording>> recordingsByArtist = new HashMap<>();
   private Map<String, Set<Recording>> getRecordingsByGenre = new HashMap<>();
@@ -54,8 +61,7 @@ public class Searcher implements SearchOperations {
 
   @Override
   public long numberOfGenres() {
-    // TODO Auto-generated method stub
-    throw new UnsupportedOperationException("Unimplemented method 'numberOfGenres'");
+    return genreToRecordings.size();
   }
 
   @Override
@@ -65,8 +71,7 @@ public class Searcher implements SearchOperations {
 
   @Override
   public boolean doesArtistExist(String name) {
-    // TODO Auto-generated method stub
-    throw new UnsupportedOperationException("Unimplemented method 'doesArtistExist'");
+    return artistToRecordings.containsKey(name);
   }
 
   @Override
@@ -76,8 +81,7 @@ public class Searcher implements SearchOperations {
 
   @Override
   public Recording getRecordingByName(String title) {
-    // TODO Auto-generated method stub
-    throw new UnsupportedOperationException("Unimplemented method 'getRecordingByName'");
+    return titleToRecording.get(title);
   }
 
   @Override
@@ -91,9 +95,13 @@ public class Searcher implements SearchOperations {
 
   @Override
   public SortedSet<Recording> getRecordingsByArtistOrderedByYearAsc(String artist) {
-    // TODO Auto-generated method stub
-    throw new UnsupportedOperationException(
-        "Unimplemented method 'getRecordingsByArtistOrderedByYearAsc'");
+    Set<Recording> sameArtist = artistToRecordings.get(artist);
+    if (sameArtist==null){
+      return Collections.emptySortedSet();
+    }
+    SortedSet<Recording> sortedRecording = new TreeSet<>(RECORDING_BY_YEAR);
+    sortedRecording.addAll(sameArtist);
+    return Collections.unmodifiableSortedSet(sortedRecording);
   }
 
   @Override
@@ -107,8 +115,18 @@ public class Searcher implements SearchOperations {
 
   @Override
   public Collection<Recording> getRecordingsByGenreAndYear(String genre, int yearFrom, int yearTo) {
-    // TODO Auto-generated method stub
-    throw new UnsupportedOperationException("Unimplemented method 'getRecordingsByGenreAndYear'");
+    Set<Recording> toReturn = new HashSet<>();
+    SortedMap<Integer, Set<Recording>> betweenYear = yearToRecordings.subMap(yearFrom, yearTo + 1);
+    for(Set<Recording> recordings : betweenYear.values()) {
+      for (Recording r: recordings) {
+        for(String g : r.getGenre()) {
+          if (g.equals(genre)) {
+            toReturn.add(r);
+          }
+        }
+      }
+    }
+    return Collections.unmodifiableSet(toReturn);
   }
 
   @Override
