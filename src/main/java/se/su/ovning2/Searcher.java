@@ -51,6 +51,35 @@ public class Searcher implements SearchOperations {
     }
      */
 
+
+    /*  for (Recording r : data) {
+      Set<Recording> sameArtist = artistToRecordings.get(r.getArtist());
+      if (sameArtist == null) {
+        sameArtist = new HashSet<>();
+        artistToRecordings.put(r.getArtist(), sameArtist);
+      }
+      sameArtist.add(r);
+      titleToRecording.put(r.getTitle(), r);
+      allRecording.add(r);
+
+      for (String genre : r.getGenre()) {
+        Set<Recording> sameGenre = genreToRecordings.get(genre);
+        if (sameGenre == null) {
+          sameGenre = new HashSet<>();
+          genreToRecordings.put(genre, sameGenre);
+        }
+        sameGenre.add(r);
+      }
+
+      Set<Recording> sameYear = yearToRecordings.get(r.getYear());
+      if (sameYear == null) {
+        sameYear = new HashSet<>();
+        yearToRecordings.put(r.getYear(), sameYear);
+      }
+      sameYear.add(r);
+    }
+  }*/
+
     Collection<Recording> recordings = data;
   }
 
