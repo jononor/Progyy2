@@ -3,18 +3,20 @@ package se.su.ovning2;
 import java.util.*;
 
 public class Searcher implements SearchOperations {
+  /*
   private static class RecordingYearComparator implements Comparator<Recording> {
     @Override
     public int compare(Recording a, Recording b) {
       return a.getYear() - b.getYear();
     }
 
+   */
 
 
-  private Map<String, Set<Recording>> recordingsByArtist = new HashMap<>();
-  private Map<String, Set<Recording>> getRecordingsByGenre = new HashMap<>();
+  private Map<String, Set<Recording>> artistToRecording = new HashMap<>();
+  private Map<String, Set<Recording>> genreToRecordings = new HashMap<>();
   private Map<String, Recording> getRecordingsByTitle = new HashMap<>();
-  private SortedMap<Integer, Set<Recording>> getRecordingsByYear = new TreeMap<>();
+  private SortedMap<Integer, Set<Recording>> yearToRecordings = new TreeMap<>();
   private Set<Recording> recordings = new HashSet<>();
 
 
@@ -24,17 +26,17 @@ public class Searcher implements SearchOperations {
     recordings.addAll(data);
     for (Recording recording : recordings) {
       String artist = recording.getArtist();
-      Set<Recording> sameArtist = recordingsByArtist.get(artist);
+      Set<Recording> sameArtist = artistToRecording.get(artist);
       if (sameArtist == null) {
         sameArtist = new HashSet<>();
-        recordingsByArtist.put(artist, sameArtist);
+        artistToRecording.put(artist, sameArtist);
       }
       sameArtist.add(recording);
       for (String genre : recording.getGenre()) {
-        Set<Recording> sameGenre = getRecordingsByGenre.get(genre);
+        Set<Recording> sameGenre = genreToRecordings.get(genre);
         if (sameGenre == null) {
           sameGenre = new HashSet<>();
-          getRecordingsByGenre.put(genre, sameGenre);
+          genreToRecordings.put(genre, sameGenre);
 
         }
         sameGenre.add(recording);
@@ -42,50 +44,19 @@ public class Searcher implements SearchOperations {
       getRecordingsByTitle.put(recording.getTitle(), recording);
 
       int year = recording.getYear();
-      Set<Recording> sameYear = getRecordingsByYear.get(year);
+      Set<Recording> sameYear = yearToRecordings.get(year);
       if (sameYear == null) {
         sameYear = new HashSet<>();
-        getRecordingsByYear.put(year, sameYear);
+        yearToRecordings.put(year, sameYear);
       }
       sameYear.add(recording);
     }
-
-
-
-    for (Recording r : data) {
-      Set<Recording> sameArtist = artistToRecordings.get(r.getArtist());
-      if (sameArtist == null) {
-        sameArtist = new HashSet<>();
-        artistToRecordings.put(r.getArtist(), sameArtist);
-      }
-      sameArtist.add(r);
-      titleToRecording.put(r.getTitle(), r);
-      allRecording.add(r);
-
-      for (String genre : r.getGenre()) {
-        Set<Recording> sameGenre = genreToRecordings.get(genre);
-        if (sameGenre == null) {
-          sameGenre = new HashSet<>();
-          genreToRecordings.put(genre, sameGenre);
-        }
-        sameGenre.add(r);
-      }
-
-      Set<Recording> sameYear = yearToRecordings.get(r.getYear());
-      if (sameYear == null) {
-        sameYear = new HashSet<>();
-        yearToRecordings.put(r.getYear(), sameYear);
-      }
-      sameYear.add(r);
-    }
-  }
-
 
   }
 
   @Override
   public long numberOfArtists() {
-    return recordingByArtist.size();
+    return artistToRecording.size();
   }
 
   @Override
@@ -95,28 +66,28 @@ public class Searcher implements SearchOperations {
 
   @Override
   public long numberOfTitles() {
-    return getRecordingsbyTitle.size();
+    return getRecordingsByTitle.size();
   }
 
   @Override
   public boolean doesArtistExist(String name) {
-    return artistToRecordings.containsKey(name);
+    return artistToRecording.containsKey(name);
   }
 
   @Override
   public Collection<String> getGenres() {
-    return Collections.unmodifiableCollection(getRecordingsByGenre.keySet());
+    return Collections.unmodifiableCollection(.keySet());
   }
 
   @Override
   public Recording getRecordingByName(String title) {
-    return titleToRecording.get(title);
+    return getRecordingsByTitle.get(title)
   }
 
   @Override
   public Collection<Recording> getRecordingsAfter(int year) {
     Set<Recording> holder = new HashSet<>();
-    for ( Set<Recording> recordings : getRecordingsByYear.tailMap(year).values() ) {
+    for ( Set<Recording> recordings : yearToRecordings.tailMap(year).values() ) {
       holder.addAll(recordings);
     }
     return Collections.unmodifiableCollection(holder);
@@ -124,7 +95,7 @@ public class Searcher implements SearchOperations {
 
   @Override
   public SortedSet<Recording> getRecordingsByArtistOrderedByYearAsc(String artist) {
-    Set<Recording> sameArtist = artistToRecordings.get(artist);
+    Set<Recording> sameArtist = artistToRecording.get(artist);
     if (sameArtist==null){
       return Collections.emptySortedSet();
     }
@@ -135,7 +106,7 @@ public class Searcher implements SearchOperations {
 
   @Override
   public Collection<Recording> getRecordingsByGenre(String genre) {
-    Set<Recording> holder = getRecordingsByGenre.get(genre);
+    Set<Recording> holder = genreToRecordings.get(genre);
     if (holder == null) {
       return Collections.emptyList();
     }
