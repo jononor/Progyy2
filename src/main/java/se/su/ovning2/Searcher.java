@@ -3,24 +3,24 @@ package se.su.ovning2;
 import java.util.*;
 
 public class Searcher implements SearchOperations {
- /* private static class RecordingYearComparator implements Comparator<Recording> {
+  private static class RecordingYearComparator implements Comparator<Recording> {
     @Override
     public int compare(Recording a, Recording b) {
       return a.getYear() - b.getYear();
     }
-  }*/
 
-  /*
+
+
   private Map<String, Set<Recording>> recordingsByArtist = new HashMap<>();
   private Map<String, Set<Recording>> getRecordingsByGenre = new HashMap<>();
   private Map<String, Recording> getRecordingsByTitle = new HashMap<>();
   private SortedMap<Integer, Set<Recording>> getRecordingsByYear = new TreeMap<>();
   private Set<Recording> recordings = new HashSet<>();
-  */
+
 
   public Searcher(Collection<Recording> data) {
 
-    /*
+
     recordings.addAll(data);
     for (Recording recording : recordings) {
       String artist = recording.getArtist();
@@ -49,10 +49,10 @@ public class Searcher implements SearchOperations {
       }
       sameYear.add(recording);
     }
-     */
 
 
-    /*  for (Recording r : data) {
+
+    for (Recording r : data) {
       Set<Recording> sameArtist = artistToRecordings.get(r.getArtist());
       if (sameArtist == null) {
         sameArtist = new HashSet<>();
@@ -78,9 +78,9 @@ public class Searcher implements SearchOperations {
       }
       sameYear.add(r);
     }
-  }*/
+  }
 
-    Collection<Recording> recordings = data;
+
   }
 
   @Override
